@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AdsConfiguration</string>
+    <string name="image_here">Image Here</string>
+    <string name="ad">Ad</string>
+</resources>
