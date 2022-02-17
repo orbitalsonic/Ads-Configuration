@@ -5,6 +5,7 @@
     <color name="gnt_blue">#4285f4</color>
     <color name="gnt_gray">#808080</color>
     <color name="gnt_green">#00FF00</color>
+    <color name="gnt_light_gray">#f4f4f4</color>
     <color name="gnt_outline">#FFFFFF</color>
     <color name="gnt_red">#FF0000</color>
     <color name="gnt_test_background_color">#00F4F4F4</color>

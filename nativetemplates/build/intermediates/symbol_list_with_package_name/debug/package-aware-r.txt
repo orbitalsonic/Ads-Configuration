@@ -5,6 +5,7 @@ color gnt_black
 color gnt_blue
 color gnt_gray
 color gnt_green
+color gnt_light_gray
 color gnt_outline
 color gnt_red
 color gnt_test_background_color
@@ -44,4 +45,5 @@ id rating_bar
 id secondary
 layout gnt_medium_template_view
 layout gnt_small_template_view
+layout gnt_small_template_view2
 styleable TemplateView gnt_template_type
