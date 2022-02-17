@@ -5,6 +5,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Window
 import android.widget.Button
@@ -22,28 +24,29 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         initLoadingDialog()
-        if (InterstitialAdsUtils.isInterstitialLoaded()){
-            InterstitialAdsUtils.showSplashInterstitialAds(this,object :SplashInterstitialCallBack{
-                override fun onAdDismissedFullScreenContent() {
-                    Log.i("AdsInformation","Main onAdDismissedFullScreenContent")
-                    adsLoadingDialog.dismiss()
-                }
+        Handler(Looper.getMainLooper()).postDelayed({
+            if (InterstitialAdsUtils.isInterstitialLoaded()){
+                InterstitialAdsUtils.showSplashInterstitialAds(this,object :SplashInterstitialCallBack{
+                    override fun onAdDismissedFullScreenContent() {
+                        Log.i("AdsInformation","Main onAdDismissedFullScreenContent")
+                        adsLoadingDialog.dismiss()
+                    }
 
-                override fun onAdFailedToShowFullScreenContent() {
-                    Log.i("AdsInformation","Main onAdDismissedFullScreenContent")
-                    adsLoadingDialog.dismiss()
-                }
+                    override fun onAdFailedToShowFullScreenContent() {
+                        Log.i("AdsInformation","Main onAdDismissedFullScreenContent")
+                        adsLoadingDialog.dismiss()
+                    }
 
-                override fun onAdShowedFullScreenContent() {
-                    Log.i("AdsInformation","Main onAdDismissedFullScreenContent")
-                    adsLoadingDialog.dismiss()
-                }
+                    override fun onAdShowedFullScreenContent() {
+                        Log.i("AdsInformation","Main onAdDismissedFullScreenContent")
+                        adsLoadingDialog.dismiss()
+                    }
 
-            })
-        }else{
-            adsLoadingDialog.dismiss()
-        }
-
+                })
+            }else{
+                adsLoadingDialog.dismiss()
+            }
+        }, 2000)
 
         val adsContainer:LinearLayout = findViewById(R.id.ads_container)
         admobAdsUtils = AdmobAdsUtils(this)
