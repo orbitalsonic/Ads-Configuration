@@ -1,7 +1,8 @@
 package com.orbitalsonic.adsconfiguration
 
-interface SplashInterstitialCallBack {
+interface InterstitialOnShowCallBack {
     fun onAdDismissedFullScreenContent()
     fun onAdFailedToShowFullScreenContent()
     fun onAdShowedFullScreenContent()
+    fun onAdImpression()
 }
