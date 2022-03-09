@@ -8,7 +8,6 @@ import com.orbitalsonic.adsconfiguration.GeneralUtils.isInternetConnected
 
 class InterstitialAdsConfig(activity: Activity) {
 
-    val AD_TAG = "AdsInformation"
     private var mInterstitialAd: InterstitialAd? = null
     private val mActivity = activity
     private var adRequest: AdRequest = AdRequest.Builder().build()

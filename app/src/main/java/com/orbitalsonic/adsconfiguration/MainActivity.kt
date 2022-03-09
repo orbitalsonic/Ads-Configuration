@@ -3,13 +3,28 @@ package com.orbitalsonic.adsconfiguration
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.orbitalsonic.adsconfiguration.InterstitialAdsPreloadConfig.AD_TAG
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val nativeContainer:ConstraintLayout = findViewById(R.id.native_container)
+        val adPlaceHolder:FrameLayout = findViewById(R.id.ad_place_holder)
+        val loadingAdText:TextView = findViewById(R.id.loading_ad_text)
+
+        AdmobBannerAds(this).showAdMobNative( getString(R.string.admob_native_banner_ids),
+            true,
+            false,nativeContainer,adPlaceHolder, loadingAdText, 1){ nativeAd ->
+            nativeAd?.let {
+                AdmobBannerAds(this).populateUnifiedNativeAdView(it,adPlaceHolder, 1 )
+            }
+        }
 
         InterstitialAdsPreloadConfig.loadInterstitialAd(
             this,
