@@ -18,23 +18,23 @@ class MainActivity : AppCompatActivity() {
             false,
             object : InterstitialOnLoadCallBack {
                 override fun onAdFailedToLoad(adError: String) {
-                    ALog.i(AD_TAG, "onAdFailedToLoad: $adError")
+                    ALog.i(AD_TAG, "Interstitial onAdFailedToLoad: $adError")
                 }
 
                 override fun onAdLoaded() {
-                    ALog.i(AD_TAG, "onAdLoaded")
+                    ALog.i(AD_TAG, "Interstitial onAdLoaded")
                 }
 
                 override fun onAdPreLoaded(isAdPreloaded: Boolean) {
-                    ALog.i(AD_TAG, "isAdPreloaded: $isAdPreloaded")
+                    ALog.i(AD_TAG, "Interstitial isAdPreloaded: $isAdPreloaded")
                 }
 
                 override fun onInternetOrAppPurchased(
                     isInternetConnected: Boolean,
                     isAppPurchased: Boolean
                 ) {
-                    ALog.i(AD_TAG, "isInternetConnected: $isInternetConnected")
-                    ALog.i(AD_TAG, "isAppPurchased: $isAppPurchased")
+                    ALog.i(AD_TAG, "Interstitial isInternetConnected: $isInternetConnected")
+                    ALog.i(AD_TAG, "Interstitial isAppPurchased: $isAppPurchased")
                 }
 
             })
@@ -43,20 +43,20 @@ class MainActivity : AppCompatActivity() {
             if (InterstitialAdsPreloadConfig.isInterstitialLoaded()){
                 InterstitialAdsPreloadConfig.showInterstitialAd(this,object :InterstitialOnShowCallBack{
                     override fun onAdDismissedFullScreenContent() {
-                        ALog.i(AD_TAG, "onAdDismissedFullScreenContent")
+                        ALog.i(AD_TAG, "Interstitial onAdDismissedFullScreenContent")
                         startActivity(Intent(this@MainActivity, NextActivity::class.java))
                     }
 
                     override fun onAdFailedToShowFullScreenContent() {
-                        ALog.i(AD_TAG, "onAdFailedToShowFullScreenContent")
+                        ALog.i(AD_TAG, "Interstitial onAdFailedToShowFullScreenContent")
                     }
 
                     override fun onAdShowedFullScreenContent() {
-                        ALog.i(AD_TAG, "onAdShowedFullScreenContent")
+                        ALog.i(AD_TAG, "Interstitial onAdShowedFullScreenContent")
                     }
 
                     override fun onAdImpression() {
-                        ALog.i(AD_TAG, "onAdImpression")
+                        ALog.i(AD_TAG, "Interstitial onAdImpression")
                     }
 
                 })

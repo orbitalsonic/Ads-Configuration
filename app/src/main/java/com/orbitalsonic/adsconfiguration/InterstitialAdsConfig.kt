@@ -89,24 +89,24 @@ class InterstitialAdsConfig(activity: Activity) {
         if (mInterstitialAd != null) {
             mInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
-                    ALog.i(InterstitialAdsPreloadConfig.AD_TAG, "onAdDismissedFullScreenContent")
+                    ALog.i(InterstitialAdsPreloadConfig.AD_TAG, "Interstitial onAdDismissedFullScreenContent")
                     interstitialOnShowCallBack.onAdDismissedFullScreenContent()
                     loadAgainInterstitialAd(admobInterstitialIds)
                 }
 
                 override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
-                    ALog.i(InterstitialAdsPreloadConfig.AD_TAG, "onAdFailedToShowFullScreenContent")
+                    ALog.i(InterstitialAdsPreloadConfig.AD_TAG, "Interstitial onAdFailedToShowFullScreenContent")
                     interstitialOnShowCallBack.onAdFailedToShowFullScreenContent()
                 }
 
                 override fun onAdShowedFullScreenContent() {
-                    ALog.i(InterstitialAdsPreloadConfig.AD_TAG, "onAdShowedFullScreenContent")
+                    ALog.i(InterstitialAdsPreloadConfig.AD_TAG, "Interstitial onAdShowedFullScreenContent")
                     interstitialOnShowCallBack.onAdShowedFullScreenContent()
                     mInterstitialAd = null
                 }
 
                 override fun onAdImpression() {
-                    ALog.i(InterstitialAdsPreloadConfig.AD_TAG, "onAdImpression")
+                    ALog.i(InterstitialAdsPreloadConfig.AD_TAG, "Interstitial onAdImpression")
                     interstitialOnShowCallBack.onAdImpression()
                 }
             }
@@ -126,13 +126,13 @@ class InterstitialAdsConfig(activity: Activity) {
                     adRequest,
                     object : InterstitialAdLoadCallback() {
                         override fun onAdFailedToLoad(adError: LoadAdError) {
-                            ALog.i(InterstitialAdsPreloadConfig.AD_TAG, "onAdFailedToLoad: $adError")
+                            ALog.i(InterstitialAdsPreloadConfig.AD_TAG, "Interstitial onAdFailedToLoad: $adError")
                             isLoadingAd = false
                             mInterstitialAd = null
                         }
 
                         override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                            ALog.i(InterstitialAdsPreloadConfig.AD_TAG, "onAdLoaded")
+                            ALog.i(InterstitialAdsPreloadConfig.AD_TAG, "Interstitial onAdLoaded")
                             isLoadingAd = false
                             mInterstitialAd = interstitialAd
 

@@ -126,13 +126,13 @@ object InterstitialAdsPreloadConfig {
                     adRequest,
                     object : InterstitialAdLoadCallback() {
                         override fun onAdFailedToLoad(adError: LoadAdError) {
-                            ALog.i(AD_TAG, "onAdFailedToLoad: $adError")
+                            ALog.i(AD_TAG, "Interstitial onAdFailedToLoad: $adError")
                             mInterstitialAd = null
                             isLoadingAd = false
                         }
 
                         override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                            ALog.i(AD_TAG, "onAdLoaded")
+                            ALog.i(AD_TAG, "Interstitial onAdLoaded")
                             mInterstitialAd = interstitialAd
                             isLoadingAd = false
 
