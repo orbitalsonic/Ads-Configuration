@@ -15,6 +15,7 @@ class InterstitialAdsConfig(activity: Activity) {
 
     private lateinit var interstitialOnLoadCallBack: InterstitialOnLoadCallBack
     private lateinit var interstitialOnShowCallBack: InterstitialOnShowCallBack
+    var isLoadingAd = false
 
 
     fun loadInterstitialAd(
@@ -31,7 +32,8 @@ class InterstitialAdsConfig(activity: Activity) {
         )
 
         if (isInternetConnected(mActivity) || !isAppPurchased || isRemoteConfigActive) {
-            if (mInterstitialAd == null) {
+            if (mInterstitialAd == null && !isLoadingAd) {
+                isLoadingAd = true
                 interstitialOnLoadCallBack.onAdPreLoaded(false)
                 InterstitialAd.load(
                     mActivity,
@@ -39,11 +41,13 @@ class InterstitialAdsConfig(activity: Activity) {
                     adRequest,
                     object : InterstitialAdLoadCallback() {
                         override fun onAdFailedToLoad(adError: LoadAdError) {
+                            isLoadingAd = false
                             mInterstitialAd = null
                             interstitialOnLoadCallBack.onAdFailedToLoad(adError.toString())
                         }
 
                         override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                            isLoadingAd = false
                             mInterstitialAd = interstitialAd
                             interstitialOnLoadCallBack.onAdLoaded()
 
@@ -114,7 +118,8 @@ class InterstitialAdsConfig(activity: Activity) {
         admobInterstitialIds: String
     ) {
         if (isInternetConnected(mActivity)) {
-            if (mInterstitialAd == null) {
+            if (mInterstitialAd == null && !isLoadingAd) {
+                isLoadingAd = true
                 InterstitialAd.load(
                     mActivity,
                     admobInterstitialIds,
@@ -122,11 +127,13 @@ class InterstitialAdsConfig(activity: Activity) {
                     object : InterstitialAdLoadCallback() {
                         override fun onAdFailedToLoad(adError: LoadAdError) {
                             ALog.i(InterstitialAdsPreloadConfig.AD_TAG, "onAdFailedToLoad: $adError")
+                            isLoadingAd = false
                             mInterstitialAd = null
                         }
 
                         override fun onAdLoaded(interstitialAd: InterstitialAd) {
                             ALog.i(InterstitialAdsPreloadConfig.AD_TAG, "onAdLoaded")
+                            isLoadingAd = false
                             mInterstitialAd = interstitialAd
 
                         }
