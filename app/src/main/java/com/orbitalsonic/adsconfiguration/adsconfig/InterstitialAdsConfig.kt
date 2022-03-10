@@ -1,21 +1,27 @@
-package com.orbitalsonic.adsconfiguration
+package com.orbitalsonic.adsconfiguration.adsconfig
 
 import android.app.Activity
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-import com.orbitalsonic.adsconfiguration.GeneralUtils.isInternetConnected
+import com.orbitalsonic.adsconfiguration.interfaces.InterstitialOnLoadCallBack
+import com.orbitalsonic.adsconfiguration.interfaces.InterstitialOnShowCallBack
+import com.orbitalsonic.adsconfiguration.utils.ALog
+import com.orbitalsonic.adsconfiguration.utils.GeneralUtils.AD_TAG
+import com.orbitalsonic.adsconfiguration.utils.GeneralUtils.isInternetConnected
 
-object InterstitialAdsPreloadConfig {
+class InterstitialAdsConfig(activity: Activity) {
 
-    const val AD_TAG = "AdsInformation"
     private var mInterstitialAd: InterstitialAd? = null
+    private val mActivity = activity
+    private var adRequest: AdRequest = AdRequest.Builder().build()
+
     private lateinit var interstitialOnLoadCallBack: InterstitialOnLoadCallBack
     private lateinit var interstitialOnShowCallBack: InterstitialOnShowCallBack
     var isLoadingAd = false
 
+
     fun loadInterstitialAd(
-        activity: Activity,
         admobInterstitialIds: String,
         isRemoteConfigActive: Boolean,
         isAppPurchased: Boolean,
@@ -24,29 +30,28 @@ object InterstitialAdsPreloadConfig {
         interstitialOnLoadCallBack = mListener
 
         interstitialOnLoadCallBack.onInternetOrAppPurchased(
-            isInternetConnected(activity),
+            isInternetConnected(mActivity),
             isAppPurchased
         )
 
-        if (isInternetConnected(activity) || !isAppPurchased || isRemoteConfigActive) {
+        if (isInternetConnected(mActivity) || !isAppPurchased || isRemoteConfigActive) {
             if (mInterstitialAd == null && !isLoadingAd) {
                 isLoadingAd = true
                 interstitialOnLoadCallBack.onAdPreLoaded(false)
-                val adRequest: AdRequest = AdRequest.Builder().build()
                 InterstitialAd.load(
-                    activity,
+                    mActivity,
                     admobInterstitialIds,
                     adRequest,
                     object : InterstitialAdLoadCallback() {
                         override fun onAdFailedToLoad(adError: LoadAdError) {
-                            mInterstitialAd = null
                             isLoadingAd = false
+                            mInterstitialAd = null
                             interstitialOnLoadCallBack.onAdFailedToLoad(adError.toString())
                         }
 
                         override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                            mInterstitialAd = interstitialAd
                             isLoadingAd = false
+                            mInterstitialAd = interstitialAd
                             interstitialOnLoadCallBack.onAdLoaded()
 
                         }
@@ -57,7 +62,7 @@ object InterstitialAdsPreloadConfig {
         }
     }
 
-    fun showInterstitialAd(activity: Activity, mListener: InterstitialOnShowCallBack) {
+    fun showInterstitialAd( mListener: InterstitialOnShowCallBack) {
         interstitialOnShowCallBack = mListener
         if (mInterstitialAd != null) {
             mInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
@@ -78,63 +83,61 @@ object InterstitialAdsPreloadConfig {
                     interstitialOnShowCallBack.onAdImpression()
                 }
             }
-            mInterstitialAd?.show(activity)
+            mInterstitialAd?.show(mActivity)
         }
     }
 
-    fun showAndLoadInterstitialAd(activity: Activity,admobInterstitialIds: String, mListener: InterstitialOnShowCallBack) {
+    fun showAndLoadInterstitialAd(admobInterstitialIds: String, mListener: InterstitialOnShowCallBack) {
         interstitialOnShowCallBack = mListener
         if (mInterstitialAd != null) {
             mInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
-                    ALog.i(AD_TAG, "onAdDismissedFullScreenContent")
+                    ALog.i(AD_TAG, "Interstitial onAdDismissedFullScreenContent")
                     interstitialOnShowCallBack.onAdDismissedFullScreenContent()
-                    loadAgainInterstitialAd(activity,admobInterstitialIds)
+                    loadAgainInterstitialAd(admobInterstitialIds)
                 }
 
                 override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
-                    ALog.i(AD_TAG, "onAdFailedToShowFullScreenContent")
+                    ALog.i(AD_TAG, "Interstitial onAdFailedToShowFullScreenContent")
                     interstitialOnShowCallBack.onAdFailedToShowFullScreenContent()
                 }
 
                 override fun onAdShowedFullScreenContent() {
-                    ALog.i(AD_TAG, "onAdShowedFullScreenContent")
+                    ALog.i(AD_TAG, "Interstitial onAdShowedFullScreenContent")
                     interstitialOnShowCallBack.onAdShowedFullScreenContent()
                     mInterstitialAd = null
                 }
 
                 override fun onAdImpression() {
-                    ALog.i(AD_TAG, "onAdImpression")
+                    ALog.i(AD_TAG, "Interstitial onAdImpression")
                     interstitialOnShowCallBack.onAdImpression()
                 }
             }
-            mInterstitialAd?.show(activity)
+            mInterstitialAd?.show(mActivity)
         }
     }
 
-   private fun loadAgainInterstitialAd(
-        activity: Activity,
+    private fun loadAgainInterstitialAd(
         admobInterstitialIds: String
     ) {
-        if (isInternetConnected(activity)) {
+        if (isInternetConnected(mActivity)) {
             if (mInterstitialAd == null && !isLoadingAd) {
                 isLoadingAd = true
-                val adRequest: AdRequest = AdRequest.Builder().build()
                 InterstitialAd.load(
-                    activity,
+                    mActivity,
                     admobInterstitialIds,
                     adRequest,
                     object : InterstitialAdLoadCallback() {
                         override fun onAdFailedToLoad(adError: LoadAdError) {
                             ALog.i(AD_TAG, "Interstitial onAdFailedToLoad: $adError")
-                            mInterstitialAd = null
                             isLoadingAd = false
+                            mInterstitialAd = null
                         }
 
                         override fun onAdLoaded(interstitialAd: InterstitialAd) {
                             ALog.i(AD_TAG, "Interstitial onAdLoaded")
-                            mInterstitialAd = interstitialAd
                             isLoadingAd = false
+                            mInterstitialAd = interstitialAd
 
                         }
                     })

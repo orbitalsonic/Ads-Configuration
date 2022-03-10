@@ -1,10 +1,12 @@
-package com.orbitalsonic.adsconfiguration
+package com.orbitalsonic.adsconfiguration.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 
 object GeneralUtils {
+
+    const val AD_TAG = "AdsInformation"
 
     fun isInternetConnected(context: Context): Boolean {
         val connectivityManager =

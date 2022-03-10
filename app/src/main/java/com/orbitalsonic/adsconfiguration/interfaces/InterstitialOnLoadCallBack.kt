@@ -1,4 +1,4 @@
-package com.orbitalsonic.adsconfiguration
+package com.orbitalsonic.adsconfiguration.interfaces
 
 interface InterstitialOnLoadCallBack {
     fun onAdFailedToLoad(adError:String)

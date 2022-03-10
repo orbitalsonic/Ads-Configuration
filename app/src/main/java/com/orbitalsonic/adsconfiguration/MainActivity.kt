@@ -7,7 +7,12 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.orbitalsonic.adsconfiguration.InterstitialAdsPreloadConfig.AD_TAG
+import com.orbitalsonic.adsconfiguration.adsconfig.AdmobBannerAds
+import com.orbitalsonic.adsconfiguration.adsconfig.InterstitialAdsPreloadConfig
+import com.orbitalsonic.adsconfiguration.interfaces.InterstitialOnLoadCallBack
+import com.orbitalsonic.adsconfiguration.interfaces.InterstitialOnShowCallBack
+import com.orbitalsonic.adsconfiguration.utils.ALog
+import com.orbitalsonic.adsconfiguration.utils.GeneralUtils.AD_TAG
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +61,8 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.btn_next).setOnClickListener {
             if (InterstitialAdsPreloadConfig.isInterstitialLoaded()){
-                InterstitialAdsPreloadConfig.showInterstitialAd(this,object :InterstitialOnShowCallBack{
+                InterstitialAdsPreloadConfig.showInterstitialAd(this,object :
+                    InterstitialOnShowCallBack {
                     override fun onAdDismissedFullScreenContent() {
                         ALog.i(AD_TAG, "Interstitial onAdDismissedFullScreenContent")
                         startActivity(Intent(this@MainActivity, NextActivity::class.java))

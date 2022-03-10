@@ -1,6 +1,7 @@
-package com.orbitalsonic.adsconfiguration
+package com.orbitalsonic.adsconfiguration.utils
 
 import android.util.Log
+import com.orbitalsonic.adsconfiguration.BuildConfig
 
 object ALog {
     fun d(tag: String, msg: String) {

@@ -1,17 +1,19 @@
-package com.orbitalsonic.adsconfiguration
+package com.orbitalsonic.adsconfiguration.adsconfig
 
 import android.app.Activity
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
+import com.orbitalsonic.adsconfiguration.R
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.formats.NativeAdOptions
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
-import com.orbitalsonic.adsconfiguration.GeneralUtils.isInternetConnected
-import com.orbitalsonic.adsconfiguration.InterstitialAdsPreloadConfig.AD_TAG
+import com.orbitalsonic.adsconfiguration.utils.ALog
+import com.orbitalsonic.adsconfiguration.utils.GeneralUtils.AD_TAG
+import com.orbitalsonic.adsconfiguration.utils.GeneralUtils.isInternetConnected
 
 class AdmobBannerAds(private val activity: Activity) {
 
