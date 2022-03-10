@@ -9,6 +9,7 @@ import com.orbitalsonic.adsconfiguration.R
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.formats.NativeAdOptions
+import com.google.android.gms.ads.nativead.MediaView
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
 import com.orbitalsonic.adsconfiguration.utils.ALog
@@ -39,19 +40,22 @@ class AdmobBannerAds(private val activity: Activity) {
 
         if (isInternetConnected(activity) || !isAppPurchased || isRemoteConfigActive) {
             if (adMobNativeAd != null) {
-                if (activity.window.decorView.rootView.isShown) {
+                ALog.i(AD_TAG, "adMobNativeAd is not null")
+                    ALog.i(AD_TAG, "show native")
                     loadingText.visibility = View.GONE
 
                     nativeContainer.visibility = View.VISIBLE
                     adMobContainer.visibility = View.VISIBLE
                     populateUnifiedNativeAdView(adMobNativeAd, adMobContainer, nativeNo)
 
-                }
+
             } else {
                 if (!isNativeLoading) {
+                    ALog.i(AD_TAG, "isNativeLoading: $isNativeLoading")
                     loadAd(admobInterstitialIds, nativeContainer, loadingText, adLoadedCallback)
                 } else {
                     if (isNativeFailed) {
+                        ALog.i(AD_TAG, "isNativeFailed: $isNativeFailed")
                         isNativeFailed = false
                         isNativeLoading = false
                         nativeContainer.visibility = View.GONE
@@ -130,14 +134,17 @@ class AdmobBannerAds(private val activity: Activity) {
             val adView: NativeAdView = if (nativeNo == 1) {
                 inflater.inflate(R.layout.admob_native_small, null) as NativeAdView
             } else {
-                inflater.inflate(R.layout.admob_native_small, null) as NativeAdView
+                inflater.inflate(R.layout.admob_native_medium, null) as NativeAdView
             }
             adMobNativeContainer.visibility = View.VISIBLE
             adMobNativeContainer.removeAllViews()
             adMobNativeContainer.addView(adView)
-/*
-            val mediaView: MediaView = adView.findViewById(R.id.ad_media)
-            adView.mediaView = mediaView*/
+
+            if (nativeNo == 2){
+                val mediaView: MediaView = adView.findViewById(R.id.media_view)
+                adView.mediaView = mediaView
+            }
+
 
             // Set other ad assets.
             adView.headlineView = adView.findViewById(R.id.ad_headline)
