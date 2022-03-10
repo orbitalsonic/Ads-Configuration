@@ -7,7 +7,8 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.orbitalsonic.adsconfiguration.adsconfig.AdmobBannerAds
+import com.orbitalsonic.adsconfiguration.adsconfig.AdmobAdaptiveAds
+import com.orbitalsonic.adsconfiguration.adsconfig.AdmobNativeAds
 import com.orbitalsonic.adsconfiguration.adsconfig.InterstitialAdsPreloadConfig
 import com.orbitalsonic.adsconfiguration.interfaces.InterstitialOnLoadCallBack
 import com.orbitalsonic.adsconfiguration.interfaces.InterstitialOnShowCallBack
@@ -23,11 +24,11 @@ class MainActivity : AppCompatActivity() {
         val adPlaceHolder:FrameLayout = findViewById(R.id.ad_place_holder)
         val loadingAdText:TextView = findViewById(R.id.loading_ad_text)
 
-        AdmobBannerAds(this).showAdMobNative( getString(R.string.admob_native_banner_ids),
+        AdmobNativeAds(this).showAdMobNative( getString(R.string.admob_native_ids),
             true,
             false,nativeContainer,adPlaceHolder, loadingAdText, 1){ nativeAd ->
             nativeAd?.let {
-                AdmobBannerAds(this).populateUnifiedNativeAdView(it,adPlaceHolder, 1 )
+                AdmobNativeAds(this).populateUnifiedNativeAdView(it,adPlaceHolder, 1 )
             }
         }
 

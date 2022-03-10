@@ -1,7 +1,6 @@
 package com.orbitalsonic.adsconfiguration.adsconfig
 
 import android.app.Activity
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
@@ -16,7 +15,7 @@ import com.orbitalsonic.adsconfiguration.utils.ALog
 import com.orbitalsonic.adsconfiguration.utils.GeneralUtils.AD_TAG
 import com.orbitalsonic.adsconfiguration.utils.GeneralUtils.isInternetConnected
 
-class AdmobBannerAds(private val activity: Activity) {
+class AdmobNativeAds(private val activity: Activity) {
 
     companion object {
         var adMobNativeAd: NativeAd? = null
@@ -27,7 +26,7 @@ class AdmobBannerAds(private val activity: Activity) {
     private var adLoader: AdLoader? = null
 
     fun showAdMobNative(
-        admobInterstitialIds: String,
+        admobNativeIds: String,
         isRemoteConfigActive: Boolean,
         isAppPurchased: Boolean,
         nativeContainer: ConstraintLayout,
@@ -41,18 +40,23 @@ class AdmobBannerAds(private val activity: Activity) {
         if (isInternetConnected(activity) || !isAppPurchased || isRemoteConfigActive) {
             if (adMobNativeAd != null) {
                 ALog.i(AD_TAG, "adMobNativeAd is not null")
-                    ALog.i(AD_TAG, "show native")
-                    loadingText.visibility = View.GONE
+                ALog.i(AD_TAG, "show native")
+                loadingText.visibility = View.GONE
 
-                    nativeContainer.visibility = View.VISIBLE
-                    adMobContainer.visibility = View.VISIBLE
-                    populateUnifiedNativeAdView(adMobNativeAd, adMobContainer, nativeNo)
+                nativeContainer.visibility = View.VISIBLE
+                adMobContainer.visibility = View.VISIBLE
+                populateUnifiedNativeAdView(adMobNativeAd, adMobContainer, nativeNo)
 
 
             } else {
                 if (!isNativeLoading) {
                     ALog.i(AD_TAG, "isNativeLoading: $isNativeLoading")
-                    loadAd(admobInterstitialIds, nativeContainer, loadingText, adLoadedCallback)
+                    loadNativeAd(
+                        admobNativeIds,
+                        nativeContainer,
+                        loadingText,
+                        adLoadedCallback
+                    )
                 } else {
                     if (isNativeFailed) {
                         ALog.i(AD_TAG, "isNativeFailed: $isNativeFailed")
@@ -67,8 +71,8 @@ class AdmobBannerAds(private val activity: Activity) {
         }
     }
 
-    private fun loadAd(
-        admobInterstitialIds: String,
+    private fun loadNativeAd(
+        admobNativeIds: String,
         nativeContainer: ConstraintLayout,
         loadingText: TextView,
         adLoadedCallback: (nativeAd: NativeAd?) -> Unit
@@ -77,7 +81,7 @@ class AdmobBannerAds(private val activity: Activity) {
         isNativeLoading = true
         isNativeFailed = false
         nativeContainer.visibility = View.VISIBLE
-        val builder: AdLoader.Builder = AdLoader.Builder(activity, admobInterstitialIds)
+        val builder: AdLoader.Builder = AdLoader.Builder(activity, admobNativeIds)
         adMobNativeAd = null
         adLoader =
             builder.forNativeAd { unifiedNativeAd: NativeAd? -> adMobNativeAd = unifiedNativeAd }
@@ -140,7 +144,7 @@ class AdmobBannerAds(private val activity: Activity) {
             adMobNativeContainer.removeAllViews()
             adMobNativeContainer.addView(adView)
 
-            if (nativeNo == 2){
+            if (nativeNo == 2) {
                 val mediaView: MediaView = adView.findViewById(R.id.media_view)
                 adView.mediaView = mediaView
             }
@@ -205,22 +209,10 @@ class AdmobBannerAds(private val activity: Activity) {
         }
     }
 
-
-    private fun getAdSize(adContainer: LinearLayout): AdSize {
-        val display = activity.windowManager.defaultDisplay
-        val outMetrics = DisplayMetrics()
-        display.getMetrics(outMetrics)
-
-        val density = outMetrics.density
-
-        var adWidthPixels = adContainer.width.toFloat()
-        if (adWidthPixels == 0f) {
-            adWidthPixels = outMetrics.widthPixels.toFloat()
-        }
-
-        val adWidth = (adWidthPixels / density).toInt()
-        return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, adWidth)
-
+    fun dismissNativeAd() {
+        adMobNativeAd = null
+        isNativeLoading = false
+        isNativeFailed = false
     }
 
 }
