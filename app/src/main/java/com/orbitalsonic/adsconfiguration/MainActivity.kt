@@ -7,7 +7,6 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.orbitalsonic.adsconfiguration.adsconfig.AdmobAdaptiveAds
 import com.orbitalsonic.adsconfiguration.adsconfig.AdmobNativeAds
 import com.orbitalsonic.adsconfiguration.adsconfig.InterstitialAdsPreloadConfig
 import com.orbitalsonic.adsconfiguration.interfaces.InterstitialOnLoadCallBack

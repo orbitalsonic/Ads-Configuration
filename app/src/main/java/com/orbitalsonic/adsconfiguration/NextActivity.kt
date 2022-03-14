@@ -6,7 +6,6 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.orbitalsonic.adsconfiguration.adsconfig.AdmobAdaptiveAds
 import com.orbitalsonic.adsconfiguration.adsconfig.AdmobNativeAds
 import com.orbitalsonic.adsconfiguration.adsconfig.InterstitialAdsPreloadConfig
 import com.orbitalsonic.adsconfiguration.interfaces.InterstitialOnLoadCallBack
@@ -18,21 +17,6 @@ class NextActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_next)
-
-        val adaptiveContainer: ConstraintLayout = findViewById(R.id.adaptive_container)
-        val adaptivePlaceHolder: FrameLayout = findViewById(R.id.adaptive_place_holder)
-        val adaptiveLoadingText: TextView = findViewById(R.id.adaptive_loading_ad_text)
-
-        AdmobAdaptiveAds(this).showAdaptiveBanner(
-            getString(R.string.admob_adaptive_banner_ids),
-            true,
-            false, adaptiveContainer, adaptivePlaceHolder, adaptiveLoadingText
-        ) { adaptiveAdView ->
-            adaptiveAdView?.let {
-                adaptivePlaceHolder.addView(it)
-            }
-        }
-
 
         val nativeContainer: ConstraintLayout = findViewById(R.id.native_container)
         val adPlaceHolder: FrameLayout = findViewById(R.id.ad_place_holder)
