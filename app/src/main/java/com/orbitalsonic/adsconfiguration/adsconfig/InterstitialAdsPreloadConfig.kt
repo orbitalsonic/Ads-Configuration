@@ -32,7 +32,7 @@ object InterstitialAdsPreloadConfig {
             isAppPurchased
         )
 
-        if (isInternetConnected(activity) || !isAppPurchased || isRemoteConfigActive) {
+        if (isInternetConnected(activity) && !isAppPurchased && isRemoteConfigActive) {
             if (mInterstitialAd == null && !isLoadingAd) {
                 isLoadingAd = true
                 interstitialOnLoadCallBack.onAdPreLoaded(false)

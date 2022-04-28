@@ -37,7 +37,7 @@ class AdmobNativeAds(private val activity: Activity) {
     ) {
         ALog.i(AD_TAG, "showAdMobNative is called")
 
-        if (isInternetConnected(activity) || !isAppPurchased || isRemoteConfigActive) {
+        if (isInternetConnected(activity) && !isAppPurchased && isRemoteConfigActive) {
             if (adMobNativeAd != null) {
                 ALog.i(AD_TAG, "adMobNativeAd is not null")
                 ALog.i(AD_TAG, "show native")
